@@ -1,0 +1,58 @@
+{
+    "schemaVersion": "0.2",
+    "prefsSafeType": "snapset",
+    "name": "carla",
+    "password": null,
+    "email": null,
+    "preferences": {
+        "flat": {
+            "name": "Carla",
+            "contexts": {
+                "gpii-default": {
+                    "name": "Default preferences",
+                    "preferences": {
+                        "http://registry.gpii.net/applications/org.gnome.desktop.a11y.magnifier": {
+                            "show-cross-hairs": true,
+                            "lens-mode": false,
+                            "mag-factor": 2,
+                            "mouse-tracking": "proportional",
+                            "screen-position": "right-half",
+                            "scroll-at-edges": true
+                        },
+                        "http://registry.gpii.net/applications/com.microsoft.windows.magnifier": {
+                            "Magnification": 200,
+                            "ZoomIncrement": 50,
+                            "Invert": 0,
+                            "FollowMouse": 1,
+                            "FollowFocus": 1,
+                            "FollowCaret": 1,
+                            "MagnificationMode": 1
+                        },
+                        "http://registry.gpii.net/common/fontSize": 24,
+                        "http://registry.gpii.net/common/foregroundColor": "white",
+                        "http://registry.gpii.net/common/backgroundColor": "black",
+                        "http://registry.gpii.net/common/fontFaceFontName": [
+                            "Comic Sans"
+                        ],
+                        "http://registry.gpii.net/common/fontFaceGenericFontFace": "sans serif",
+                        "http://registry.gpii.net/common/magnification": 2,
+                        "http://registry.gpii.net/common/tracking": [
+                            "mouse"
+                        ],
+                        "http://registry.gpii.net/common/invertColours": true,
+                        "http://registry.gpii.net/common/adaptationPreference": [
+                            {
+                                "adaptationType": "caption",
+                                "language": "en"
+                            },
+                            {}
+                        ],
+                        "http://registry.gpii.net/common/tableOfContents": false
+                    }
+                }
+            }
+        }
+    },
+    "timestampCreated": "2019-10-15T15:21:46.532Z",
+    "timestampUpdated": null
+}

@@ -1,0 +1,17 @@
+{
+    "name": "evaluate-firestore-datastore-mode",
+    "description": "Contain scripts for evaluating Google Cloud Firestore in datastore mode.",
+    "version": "0.0.1",
+    "author": "cindyli",
+    "dependencies": {
+        "@google-cloud/datastore": "4.4.0"
+    },
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "Firestore"
+    ],
+    "repository": "git://github.com/cindyli/db-evaluations.git",
+    "engines": {
+        "node": ">=4.2.1"
+    }
+}

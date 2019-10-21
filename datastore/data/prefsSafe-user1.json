@@ -1,0 +1,24 @@
+{
+    "schemaVersion": "0.2",
+    "prefsSafeType": "user",
+    "name": "user1",
+    "password": null,
+    "email": null,
+    "preferences": {
+        "flat": {
+            "name": "Alsa",
+            "contexts": {
+                "gpii-default": {
+                    "name": "Default preferences",
+                    "preferences": {
+                        "http://registry.gpii.net/applications/org.alsa-project": {
+                            "masterVolume": 0
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "timestampCreated": "2019-10-15T15:21:46.528Z",
+    "timestampUpdated": null
+}

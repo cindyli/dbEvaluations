@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "0.2",
+  "clientId": "gpiiAppInstallationClient-1",
+  "gpiiKey": "carla",
+  "clientCredentialId": "clientCredential-1",
+  "accessToken": "487ea2ad1b2a07c2e5ca0ba4f991c1c1",
+  "revoked": false,
+  "revokedReason": null,
+  "timestampCreated": "2019-10-17T13:10:14.096Z",
+  "timestampRevoked": null,
+  "timestampExpires": "2019-10-17T14:10:14.096Z"
+}
