@@ -1,4 +1,4 @@
-// Conclusion: Support the timestamp comparison when the timestamp is saved as new Date().toJSON())
+// Conclusion: Support the timestamp comparison at least when the timestamp is saved as new Date().toJSON())
 
 // Imports the Google Cloud client library
 var {Datastore} = require("@google-cloud/datastore");

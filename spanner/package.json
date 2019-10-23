@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "author": "cindyli",
     "dependencies": {
-        "@google-cloud/datastore": "4.4.0"
+        "@google-cloud/spanner": "4.2.0"
     },
     "license": "BSD-3-Clause",
     "keywords": [

@@ -1,2 +1,5 @@
 datastore/node_modules/
 datastore/package-lock.json
+
+spanner/node_modules/
+spanner/package-lock.json

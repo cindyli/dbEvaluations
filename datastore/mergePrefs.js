@@ -7,7 +7,7 @@ var {Datastore} = require("@google-cloud/datastore");
 var datastore = new Datastore();
 
 async function merge() {
-    var key = datastore.key(["gpiiKeys", "carla", "prefsSafes", "carla"]);
+    var key = datastore.key(["prefsSafes", "perfsSafe-carla"]);
 
     var [before] = await datastore.get(key);
     console.log("Carla record BEFORE the merge: ", before);

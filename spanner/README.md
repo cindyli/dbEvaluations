@@ -1,9 +1,40 @@
-# Cloud Spanner
+## Cloud Spanner
+This directory contains scripts for evaluating development features of Cloud Spanner.
 
-## Local development with Cloud Spanner
+## Setup
+- Follow instructions to setup: https://googleapis.dev/nodejs/spanner/latest/#before-you-begin
+  - Open a terminal to set up an environment variable: `export GOOGLE_APPLICATION_CREDENTIALS="/Users/cindyli/Downloads/spanner-credential.json"`
+  - Log in locally by running `gcloud auth login`
 
-There is currently no local development option for Cloud Spanner. A close work around is to start
-CockroachDB in a docker container. Refer to [this stackoverflow thread](https://stackoverflow.com/questions/42289920/local-development-with-cloud-spanner) for its pros and cons.
+  - Create a Cloud Spanner instance:
+  `gcloud spanner instances create evaluate-spanner-instance --config=regional-us-central1 \
+    --description="Evaluate Spanner Instance" --nodes=1`
+
+## Evaluation details
+
+Note that an evaluation summary can be found [in the repo README](../README.md).
+
+| Feature | Detail |
+| --- | --- |
+| **Must have** |
+| Save and retrieve "perferences" object | Yes. Save as stringified JSON. Spanner provides [JSON functions](https://cloud.google.com/spanner/docs/functions-and-operators#json-functions) to retrieve nested values/objects from JSON |
+| Local emulator for development and running tests locally | Not offered by Google. A close work around is to start CockroachDB in a docker container. See [this discussion](https://stackoverflow.com/questions/42289920/local-development-with-cloud-spanner). |
+| Failure reports | Yes. [Google example scripts](https://github.com/googleapis/nodejs-spanner/blob/master/samples/dml.js) |
+| Indexing | Yes. Automatically create indexes for primary keys. Support user defined [secondary indexes](https://cloud.google.com/spanner/docs/secondary-indexes)|
+| Good Documentation | Yes. See [here](https://cloud.google.com/spanner/docs/) |
+| Credentials Required | Yes. (See [here](https://googleapis.dev/nodejs/spanner/latest/#before-you-begin)). |
+| Licensing | Paid service. Free trial account allows free use for 12 months. See [here](https://cloud.google.com/spanner/pricing). |
+| **Nice to have (Optional)** |
+| Query entities from more than one kind by a common property | Yes. Example script: queryWithJoin.js |
+| Support DML-like OR when querying entities | Yes. Example script: queryWithOr.js |
+| Shallow merge at the property level | Yes. common DML feature with UPDATE statements |
+| Deep object merge for property values | No. JSON saved as strings |
+| timestamp comparison | Yes. Example script: queryWithJoin.js |
+| Views | No. The article about [optimizing schema design](https://cloud.google.com/spanner/docs/whitepapers/optimizing-schema-design) |
+| Reuse current db schema | Yes |
+
 
 ## References:
+- Google Cloud Spanner Documentation - https://cloud.google.com/spanner/docs/quickstart-console
+- Github repo with node.js examples - https://github.com/googleapis/nodejs-spanner
 - Google Cloud Spanner: the good, the bad and the ugly - https://medium.com/@LightspeedHQ/google-cloud-spanner-the-good-the-bad-and-the-ugly-5795f37a7684
