@@ -18,12 +18,12 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | --- | --- |
 | **Must have** |
 | Save and retrieve "perferences" object | Yes. Save as stringified JSON. Spanner provides [JSON functions](https://cloud.google.com/spanner/docs/functions-and-operators#json-functions) to retrieve nested values/objects from JSON |
-| Local emulator for development and running tests locally | Not offered by Google. A close work around is to start CockroachDB in a docker container. See [this discussion](https://stackoverflow.com/questions/42289920/local-development-with-cloud-spanner). |
+| Local emulator for development and running tests locally | Not offered by Google. A close work around is to [use a CockroachDB docker image](https://stackoverflow.com/questions/42289920/local-development-with-cloud-spanner). This work around may not work for us because CockroachDB supports standard SQLs while we will use Spanner's npm module that all SQLs need to go thru a non-SQL API. Here's a discussion about [CockroachDB vs Google Cloud Spanner](https://forum.cockroachlabs.com/t/cockroachdb-vs-google-cloud-spanner/691) |
 | Failure reports | Yes. [Google example scripts](https://github.com/googleapis/nodejs-spanner/blob/master/samples/dml.js) |
 | Indexing | Yes. Automatically create indexes for primary keys. Support user defined [secondary indexes](https://cloud.google.com/spanner/docs/secondary-indexes)|
 | Good Documentation | Yes. See [here](https://cloud.google.com/spanner/docs/) |
 | Credentials Required | Yes. (See [here](https://googleapis.dev/nodejs/spanner/latest/#before-you-begin)). |
-| Licensing | Paid service. Free trial account allows free use for 12 months. See [here](https://cloud.google.com/spanner/pricing). |
+| Licensing | Paid service. $300 credit for free trial. See [here](https://cloud.google.com/spanner/pricing). |
 | **Nice to have (Optional)** |
 | Query entities from more than one kind by a common property | Yes. Example script: queryWithJoin.js |
 | Support DML-like OR when querying entities | Yes. Example script: queryWithOr.js |

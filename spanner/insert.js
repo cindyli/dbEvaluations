@@ -104,6 +104,6 @@ async function insert(table, data) {
     }
 }
 
-// insert("gpiiKeys", gpiiKeysData);
+insert("gpiiKeys", gpiiKeysData);
 insert("prefsSafes", prefsSafesData);
-// insert("gpiiAppInstallationAuthorizations", accessTokensData);
+insert("gpiiAppInstallationAuthorizations", accessTokensData);
