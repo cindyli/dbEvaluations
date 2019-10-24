@@ -27,6 +27,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | **Nice to have (Optional)** |
 | Query entities from more than one kind by a common property | Yes. Example script: queryWithJoin.js |
 | Support DML-like OR when querying entities | Yes. Example script: queryWithOr.js |
+| Be able to retrieve a targeted subset documents, such as by data type, username, et cetera. | Yes. Example script: queryWithOr.js |
 | Shallow merge at the property level | Yes. common DML feature with UPDATE statements |
 | Deep object merge for property values | No. JSON saved as strings |
 | timestamp comparison | Yes. Example script: queryWithJoin.js |

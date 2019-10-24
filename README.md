@@ -20,10 +20,11 @@ The evaluation details can be found in the corresponding sub-directory.
 | Indexing | Yes | Yes |
 | Good Documentation | Yes | Yes |
 | Credentials Required | No for using local emulator. Yes for accessing GCP instance. | Yes. Only tested the online GCP instance |
-| Licensing | Paid service. Free quota that allows you to get started at no cost | Paid service |
+| Licensing | Paid service. Free quota that allows you to get started at no cost | Paid service. $300 credit for free trial. |
 | **Nice to have (Optional)** |
 | Query entities from more than one kind by a common property | No | Yes |
 | Support DML-like OR when querying entities | No | Yes |
+| Be able to retrieve a targeted subset documents, such as by data type, username, et cetera. | Yes | Yes |
 | Shallow merge at the property level | Yes | Yes |
 | Deep object merge for property values | No | No |
 | timestamp comparison | Yes | Yes |

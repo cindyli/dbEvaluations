@@ -53,6 +53,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | **Nice to have (Optional)** |
 | Query entities from more than one kind by a common property | No. Example script: queryMultipleEntities.js |
 | Support DML-like OR when querying entities | No |
+| Be able to retrieve a targeted subset documents, such as by data type, username, et cetera. | Yes. Example script: querySubsets.js |
 | Shallow merge at the property level | Yes. Example script: mergePrefs.js |
 | Deep object merge for property values | No. Example script: mergePrefs.js |
 | timestamp comparison | Yes. Example script: findExpiredAccessToken.js |
