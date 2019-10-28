@@ -10,6 +10,9 @@ This directory contains scripts for evaluating development features of Cloud Spa
   `gcloud spanner instances create evaluate-spanner-instance --config=regional-us-central1 \
     --description="Evaluate Spanner Instance" --nodes=1`
 
+  - Delete a Cloud Spanner instance:
+  `gcloud spanner instances delete evaluate-spanner-instance`
+
 ## Evaluation details
 
 Note that an evaluation summary can be found [in the repo README](../README.md).
