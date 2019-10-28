@@ -30,6 +30,9 @@ The evaluation details can be found in the corresponding sub-directory.
 | timestamp comparison | Yes | Yes |
 | Views | No | No |
 | Reuse current db schema | No | Yes |
+| Data type validation | No | Yes |
+| Scalability when querying a nested JSON value | Yes | No |
+| Unnecessary to explicitly define entity dependencies for fast query | Yes | No. Must carefully define interleaved tables to ensure each interleaved row is physically stored in the same split as its parent row to improve performance.|
 
 Note:
 1. Without the support of "Query entities from more than one kind by a common property". These current views can only be achieved by 2 queries: findPrefsSafeByGpiiKey, findClientByOauth2ClientId, findInfoByAccessToken

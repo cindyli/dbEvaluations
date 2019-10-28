@@ -33,7 +33,9 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | timestamp comparison | Yes. Example script: queryWithJoin.js |
 | Views | No. The article about [optimizing schema design](https://cloud.google.com/spanner/docs/whitepapers/optimizing-schema-design) |
 | Reuse current db schema | Yes |
-
+| Data type validation | Yes |
+| Scalability when querying a nested JSON value | No |
+| Unnecessary to explicitly define entity dependencies for fast query | No. Must carefully define interleaved tables to ensure each interleaved row is physically stored in the same split as its parent row to improve performance.|
 
 ## References:
 - Google Cloud Spanner Documentation - https://cloud.google.com/spanner/docs/quickstart-console

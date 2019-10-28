@@ -59,6 +59,9 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | timestamp comparison | Yes. Example script: findExpiredAccessToken.js |
 | Views | No |
 | Reuse current db schema | No. Need a redesign with ancestors. |
+| Data type validation | No. As a NO-SQL db, any data format can be saved in an entity. |
+| Scalability when querying a nested JSON value | Yes |
+| Unnecessary to explicitly define entity dependencies for fast query | Yes |
 
 ## References
 - Cloud Firestore in Datastore mode Documentation - https://cloud.google.com/datastore/docs/
