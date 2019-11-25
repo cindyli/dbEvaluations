@@ -3,3 +3,6 @@ datastore/package-lock.json
 
 spanner/node_modules/
 spanner/package-lock.json
+
+tidb/node_modules/
+tidb/package-lock.json

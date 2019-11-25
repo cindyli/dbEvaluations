@@ -1,14 +1,15 @@
 {
-    "name": "evaluate-cloud-spanner",
-    "description": "Contain scripts for evaluating Google Cloud Cloud Spanner Database.",
+    "name": "evaluate-TiDB",
+    "description": "Contain scripts for evaluating TiDB.",
     "version": "0.0.1",
     "author": "cindyli",
     "dependencies": {
-        "@google-cloud/spanner": "4.2.0"
+        "mysql": "2.17.1",
+        "async": "3.1.0"
     },
     "license": "BSD-3-Clause",
     "keywords": [
-        "Cloud Spanner"
+        "TiDB"
     ],
     "repository": "git://github.com/cindyli/dbEvaluations.git",
     "engines": {

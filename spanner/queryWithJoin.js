@@ -20,7 +20,7 @@ async function queryWithJoin(table, data) {
     var query = {
         sql: `SELECT gpiiKeys.gpiiKey, JSON_QUERY(prefsSafes.preferences, "$") as prefs
             FROM gpiiAppInstallationAuthorizations, gpiiKeys, prefsSafes
-            WHERE gpiiAppInstallationAuthorizations.timestampRevoked > CURRENT_TIMESTAMP()
+            WHERE gpiiAppInstallationAuthorizations.timestampExpires > CURRENT_TIMESTAMP()
             AND gpiiAppInstallationAuthorizations.gpiiKey = gpiiKeys.gpiiKey
             AND gpiiKeys.prefsSafeId = prefsSafes.prefsSafeId`,
     };
