@@ -8,7 +8,7 @@ You may obtain a copy of the License at
 https://github.com/GPII/universal/blob/master/LICENSE.txt
 */
 
-// Test script to load a cockroachDB with GPII keys and preferences
+// Test script to load a cockroachDB with GPII keys, prefsSafes, and credentials
 // Prerequisites:
 // 1. Run StartInsecureLocalCluster.sh in the "scripts" folder
 // 2. Allocate the database and user using cockroachDB's sql command line interface:
@@ -26,7 +26,6 @@ var fluid = require("infusion");
 
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
 
-debugger;
 // Connect to CockroachDB through Sequelize.
 var sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', {
                               // DB name,              user       password (none)
@@ -55,11 +54,23 @@ gpiiCockroach.prefsSafesModel = sequelize.define('prefsSafes', {
   timestampCreated: { type: Sequelize.DATE }
 });
 
+// And, the credentials model.
+gpiiCockroach.appInstallationAuthorizationsModel = sequelize.define('gpiiAppInstallationAuthorizations', {
+  accessToken: { type: Sequelize.STRING(36), primaryKey: true },
+  schemaVersion: { type: Sequelize.STRING(100) },
+  clientId: {type: Sequelize.STRING(36) },
+  gpiiKey: {type: Sequelize.STRING(36) },
+  revoked: { type: Sequelize.BOOLEAN },
+  revokedReason: { type: Sequelize.STRING },
+  timestampExpires: { type: Sequelize.DATE }
+});
+
 // Function to create the GPII keys and prefsSafes tables
 gpiiCockroach.createTables = function (options) {
     return fluid.promise.sequence([
         options.gpiiKeyModel.sync({force: true}),
-        options.prefsSafesModel.sync({force: true})
+        options.prefsSafesModel.sync({force: true}),
+        options.appInstallationAuthorizationsModel.sync({force: true})
     ]);
 };
 
@@ -81,6 +92,16 @@ gpiiCockroach.insertPrefSafes = function (options) {
             { prefsSafeId: "prefsSafe-carla", schemaVersion: "0.2", prefsSafeType: "snapset", name: "carla preferences", preferences: JSON.parse(fs.readFileSync("./data/carla.json")), timestampCreated: new Date().toISOString() },
             { prefsSafeId: "prefsSafe-alice", schemaVersion: "0.2", prefsSafeType: "snapset", name: "alice preferences", preferences: JSON.parse(fs.readFileSync("./data/alice.json")), timestampCreated: new Date().toISOString() },
             { prefsSafeId: "prefsSafe-user1", schemaVersion: "0.2", prefsSafeType: "snapset", name: "user1 preferences", preferences: JSON.parse(fs.readFileSync("./data/user1.json")), timestampCreated: new Date().toISOString() }
+        ]
+    );
+};
+
+// Load the gpiiAppInstallationAuthorizations table
+gpiiCockroach.insertAppInstallationAuthorizations = function (options) {
+    return options.appInstallationAuthorizationsModel.bulkCreate(
+        [
+            { accessToken: "expired", schemaVersion: "0.2", clientId: "gpiiAppInstallationClient-1", gpiiKey: "carla", revoked: false, revokedReason: null, timestampExpires: new Date().toISOString() },
+            { accessToken: "unexpired", schemaVersion: "0.2", clientId: "gpiiAppInstallationClient-1", gpiiKey: "alice", revoked: false, revokedReason: null, timestampExpires: new Date().toISOString() }
         ]
     );
 };
@@ -114,17 +135,18 @@ gpiiCockroach.exitError = function (err) {
     process.exit(1);
 };
 
-debugger;
 // Overall function
 gpiiCockroach.doItAll = function () {
     var options = {};
     options.id = "Here be options";
     options.gpiiKeyModel = gpiiCockroach.gpiiKeyModel;
     options.prefsSafesModel = gpiiCockroach.prefsSafesModel;
+    options.appInstallationAuthorizationsModel = gpiiCockroach.appInstallationAuthorizationsModel;
     var sequence = [
         gpiiCockroach.createTables,
         gpiiCockroach.insertGpiiKeys,
         gpiiCockroach.insertPrefSafes,
+        gpiiCockroach.insertAppInstallationAuthorizations,
         gpiiCockroach.retrieveGpiiKeys,
         gpiiCockroach.printGpiiKeys
     ];
