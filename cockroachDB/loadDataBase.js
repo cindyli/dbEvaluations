@@ -62,14 +62,14 @@ gpiiCockroach.insertGpiiKeys = function (options) {
 
 // Function to retrieve all gpiiKeys
 gpiiCockroach.retrieveGpiiKeys = function (options) {
-    // Retrieve Accounts
+    // Retrieve the keys
     options.gpiiKeys = options.gpiiKeyModel.findAll();
     return options.gpiiKeys;    // a Promise
 };
 
 // Function to print out gpiiKeys
 gpiiCockroach.printGpiiKeys = function (options) {
-    // Print out the balances
+    // Print out the contents of the keys
     var keys = options.gpiiKeys.value();
     keys.forEach(function(key) {
         console.log(JSON.stringify(key, null, 2));
