@@ -27,7 +27,7 @@ var fluid = require("infusion");
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
 
 // Connect to CockroachDB through Sequelize.
-var sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', {
+gpiiCockroach.sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', {
                               // DB name,              user       password (none)
     dialect: 'postgres',
     port: 26257,
@@ -35,7 +35,7 @@ var sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', {
 });
 
 // Define the GPII key model for the GPII key table.
-gpiiCockroach.gpiiKeyModel = sequelize.define('gpiiKeys', {
+gpiiCockroach.gpiiKeyModel = gpiiCockroach.sequelize.define('gpiiKeys', {
   id: { type: Sequelize.STRING(36), primaryKey: true },
   schemaVersion: { type: Sequelize.STRING(100) },
   prefsSafeId: {type: Sequelize.STRING(36) },
@@ -45,7 +45,7 @@ gpiiCockroach.gpiiKeyModel = sequelize.define('gpiiKeys', {
 });
 
 // Likewise, define the prefsSafes model.
-gpiiCockroach.prefsSafesModel = sequelize.define('prefsSafes', {
+gpiiCockroach.prefsSafesModel = gpiiCockroach.sequelize.define('prefsSafes', {
   prefsSafeId: { type: Sequelize.STRING(36), primaryKey: true },
   schemaVersion: { type: Sequelize.STRING(100) },
   prefsSafeType: {type: Sequelize.STRING(100) },
@@ -55,7 +55,7 @@ gpiiCockroach.prefsSafesModel = sequelize.define('prefsSafes', {
 });
 
 // And, the credentials model.
-gpiiCockroach.appInstallationAuthorizationsModel = sequelize.define('gpiiAppInstallationAuthorizations', {
+gpiiCockroach.appInstallationAuthorizationsModel = gpiiCockroach.sequelize.define('gpiiAppInstallationAuthorizations', {
   accessToken: { type: Sequelize.STRING(36), primaryKey: true },
   schemaVersion: { type: Sequelize.STRING(100) },
   clientId: {type: Sequelize.STRING(36) },
