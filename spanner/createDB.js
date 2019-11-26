@@ -42,7 +42,7 @@ const request = {
       gpiiKey STRING(36),
       revoked BOOL,
       revokedReason STRING(MAX),
-      timestampRevoked TIMESTAMP
+      timestampExpires TIMESTAMP
     ) PRIMARY KEY (accessToken)`,
   ],
 };

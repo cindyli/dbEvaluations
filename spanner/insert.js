@@ -78,7 +78,7 @@ var accessTokensData = [
         gpiiKey: "carla",
         revoked: false,
         revokedReason: null,
-        timestampRevoked: "2019-10-17T14:10:14.096Z"
+        timestampExpires: "2019-10-17T14:10:14.096Z"
     },
     {
         accessToken: "unexpired",
@@ -87,7 +87,7 @@ var accessTokensData = [
         gpiiKey: "alice",
         revoked: false,
         revokedReason: null,
-        timestampRevoked: "2021-10-17T14:10:14.096Z"
+        timestampExpires: "2021-10-17T14:10:14.096Z"
     }
 ];
 
