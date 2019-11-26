@@ -20,6 +20,7 @@ https://github.com/GPII/universal/blob/master/LICENSE.txt
 // 3. Run this script:
 //   $ node loadDataBase.js
 
+var fs = require("fs");
 var Sequelize = require('sequelize-cockroachdb');
 var fluid = require("infusion");
 
@@ -39,23 +40,47 @@ gpiiCockroach.gpiiKeyModel = sequelize.define('gpiiKeys', {
   id: { type: Sequelize.STRING(36), primaryKey: true },
   schemaVersion: { type: Sequelize.STRING(100) },
   prefsSafeId: {type: Sequelize.STRING(36) },
-  revoked: { type: Sequelize.INTEGER }, // TINYINT not supported
+  revoked: { type: Sequelize.BOOLEAN },
   revokedReason: { type: Sequelize.STRING },
   timestampCreated: { type: Sequelize.DATE }
 });
 
-// Function to create the GPII keys table
-gpiiCockroach.createGpiiKeys = function (options) {
-    return options.gpiiKeyModel.sync({force: true});
+// Likewise, define the prefsSafes model.
+gpiiCockroach.prefsSafesModel = sequelize.define('prefsSafes', {
+  prefsSafeId: { type: Sequelize.STRING(36), primaryKey: true },
+  schemaVersion: { type: Sequelize.STRING(100) },
+  prefsSafeType: {type: Sequelize.STRING(100) },
+  name: { type: Sequelize.STRING(255) },
+  preferences: { type: Sequelize.JSON },
+  timestampCreated: { type: Sequelize.DATE }
+});
+
+// Function to create the GPII keys and prefsSafes tables
+gpiiCockroach.createTables = function (options) {
+    return fluid.promise.sequence([
+        options.gpiiKeyModel.sync({force: true}),
+        options.prefsSafesModel.sync({force: true})
+    ]);
 };
 
 // Function to insert keys into the GPII keys table
 gpiiCockroach.insertGpiiKeys = function (options) {
     return options.gpiiKeyModel.bulkCreate(
         [
-            {id: "carla", schemaVersion: "0.2", prefsSafeId: "prefsSafe-carla", revoked: "0", revokedReason: null, timestampCreated: new Date().toISOString() },
-            {id: "alice", schemaVersion: "0.2", prefsSafeId: "prefsSafe-alice", revoked: "0", revokedReason: null, timestampCreated: new Date().toISOString() },
-            {id: "user1", schemaVersion: "0.2", prefsSafeId: "prefsSafe-user1", revoked: "0", revokedReason: null, timestampCreated: new Date().toISOString() },
+            { id: "carla", schemaVersion: "0.2", prefsSafeId: "prefsSafe-carla", revoked: "0", revokedReason: null, timestampCreated: new Date().toISOString() },
+            { id: "alice", schemaVersion: "0.2", prefsSafeId: "prefsSafe-alice", revoked: "0", revokedReason: null, timestampCreated: new Date().toISOString() },
+            { id: "user1", schemaVersion: "0.2", prefsSafeId: "prefsSafe-user1", revoked: "0", revokedReason: null, timestampCreated: new Date().toISOString() }
+        ]
+    );
+};
+
+// Load the prefsSafes table
+gpiiCockroach.insertPrefSafes = function (options) {
+    return options.prefsSafesModel.bulkCreate(
+        [
+            { prefsSafeId: "prefsSafe-carla", schemaVersion: "0.2", prefsSafeType: "snapset", name: "carla preferences", preferences: JSON.parse(fs.readFileSync("./data/carla.json")), timestampCreated: new Date().toISOString() },
+            { prefsSafeId: "prefsSafe-alice", schemaVersion: "0.2", prefsSafeType: "snapset", name: "alice preferences", preferences: JSON.parse(fs.readFileSync("./data/alice.json")), timestampCreated: new Date().toISOString() },
+            { prefsSafeId: "prefsSafe-user1", schemaVersion: "0.2", prefsSafeType: "snapset", name: "user1 preferences", preferences: JSON.parse(fs.readFileSync("./data/user1.json")), timestampCreated: new Date().toISOString() }
         ]
     );
 };
@@ -95,9 +120,11 @@ gpiiCockroach.doItAll = function () {
     var options = {};
     options.id = "Here be options";
     options.gpiiKeyModel = gpiiCockroach.gpiiKeyModel;
+    options.prefsSafesModel = gpiiCockroach.prefsSafesModel;
     var sequence = [
-        gpiiCockroach.createGpiiKeys,
+        gpiiCockroach.createTables,
         gpiiCockroach.insertGpiiKeys,
+        gpiiCockroach.insertPrefSafes,
         gpiiCockroach.retrieveGpiiKeys,
         gpiiCockroach.printGpiiKeys
     ];
