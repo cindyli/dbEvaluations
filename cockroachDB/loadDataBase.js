@@ -65,7 +65,7 @@ gpiiCockroach.appInstallationAuthorizationsModel = gpiiCockroach.sequelize.defin
   timestampExpires: { type: Sequelize.DATE }
 });
 
-// Function to create the GPII keys and prefsSafes tables
+// Function to create the tables
 gpiiCockroach.createTables = function (options) {
     return fluid.promise.sequence([
         options.gpiiKeyModel.sync({force: true}),
