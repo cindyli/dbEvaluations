@@ -36,7 +36,7 @@ gpiiCockroach.sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', 
 
 // Define the GPII key model for the GPII key table.
 gpiiCockroach.gpiiKeyModel = gpiiCockroach.sequelize.define('gpiiKeys', {
-  id: { type: Sequelize.STRING(36), primaryKey: true },
+  gpiiKey: { type: Sequelize.STRING(36), primaryKey: true },
   schemaVersion: { type: Sequelize.STRING(100) },
   prefsSafeId: {type: Sequelize.STRING(36) },
   revoked: { type: Sequelize.BOOLEAN },
@@ -78,9 +78,9 @@ gpiiCockroach.createTables = function (options) {
 gpiiCockroach.insertGpiiKeys = function (options) {
     return options.gpiiKeyModel.bulkCreate(
         [
-            { id: "carla", schemaVersion: "0.2", prefsSafeId: "prefsSafe-carla", revoked: false, revokedReason: null, timestampCreated: new Date().toISOString() },
-            { id: "alice", schemaVersion: "0.2", prefsSafeId: "prefsSafe-alice", revoked: false, revokedReason: null, timestampCreated: new Date().toISOString() },
-            { id: "user1", schemaVersion: "0.2", prefsSafeId: "prefsSafe-user1", revoked: false, revokedReason: null, timestampCreated: new Date().toISOString() }
+            { gpiiKey: "carla", schemaVersion: "0.2", prefsSafeId: "prefsSafe-carla", revoked: false, revokedReason: null, timestampCreated: new Date().toISOString() },
+            { gpiiKey: "alice", schemaVersion: "0.2", prefsSafeId: "prefsSafe-alice", revoked: false, revokedReason: null, timestampCreated: new Date().toISOString() },
+            { gpiiKey: "user1", schemaVersion: "0.2", prefsSafeId: "prefsSafe-user1", revoked: false, revokedReason: null, timestampCreated: new Date().toISOString() }
         ]
     );
 };
