@@ -17,15 +17,41 @@
 # - 8080/tcp for the web-based admin viewer
 
 COCKROACHDB_IMAGE=cockroachdb/cockroach:v19.2.0
+LISTEN_PORT=26257
+COCKROACHDB_PORT=8080
 
-echo "STARTING NODE 1"
-docker run --name=cockroachdb $COCKROACHDB_IMAGE start --insecure --store=node1 --listen-addr=localhost:26257 --http-addr=localhost:8080 --join=localhost:26257,localhost:26258,localhost:26259 &
-echo "SLEEPING"; sleep 2; echo "AWAKE";
-echo "STARTING NODE 2"
-docker exec cockroachdb /cockroach/cockroach.sh start --insecure --store=node2 --listen-addr=localhost:26258 --http-addr=localhost:8081 --join=localhost:26257,localhost:26258,localhost:26259 --background
-echo "SLEEPING"; sleep 2; echo "AWAKE";
-#echo "STARTING NODE 3"
-#docker exec cockroachdb /cockroach/cockroach.sh start --insecure --store=node3 --listen-addr=localhost:26259 --http-addr=localhost:8082 --join=localhost:26257,localhost:26258,localhost:26259 --background
-#echo "SLEEPING"; sleep 2; echo "AWAKE";
-echo "INITIALIZING DATABASE"
-docker exec cockroachdb /cockroach/cockroach.sh init --insecure --host=localhost:26257 &
+docker network create -d bridge roachnet
+
+echo "STARTING cockroachdb cluster in docker containers ..."
+docker run -d \
+--name=cockroachdb \
+--hostname=roach1 \
+--net roachnet \
+-p $LISTEN_PORT:$LISTEN_PORT -p $COCKROACHDB_PORT:$COCKROACHDB_PORT \
+-v "${PWD}/cockroach-data/roach1:/cockroach/cockroach-data" \
+$COCKROACHDB_IMAGE start --insecure --join=roach1,roach2,roach3
+
+docker run -d \
+--name=roach2 \
+--hostname=roach2 \
+--net=roachnet \
+-v "${PWD}/cockroach-data/roach2:/cockroach/cockroach-data" \
+$COCKROACHDB_IMAGE start --insecure --join=roach1,roach2,roach3
+
+docker run -d \
+--name=roach3 \
+--hostname=roach3 \
+--net=roachnet \
+-v "${PWD}/cockroach-data/roach2:/cockroach/cockroach-data" \
+$COCKROACHDB_IMAGE start --insecure --join=roach1,roach2,roach3
+
+docker exec -it cockroachdb ./cockroach init --insecure
+
+echo "Creating 'evaluate_cockroachdb' database ..."
+docker exec -d cockroachdb ./cockroach sql --insecure -e "
+CREATE USER IF NOT EXISTS maxroach;
+CREATE DATABASE evaluate_cockroachdb;
+GRANT ALL ON DATABASE evaluate_cockroachdb TO maxroach;
+"
+
+echo "'evaluate_cockroachdb' initialized (empty)"

@@ -8,13 +8,10 @@
 # You may obtain a copy of the License at
 # https://github.com/GPII/universal/blob/master/LICENSE.txt
 
-# Shuts down the database cluster and flushes its nodes
+# Shuts down the docker database cluster, removes the docker containers, shuts
+# down the "roachnet" network, and removes the log files.
 
-
-#docker exec cockroachdb /cockroach/cockroach.sh quit --insecure --host=localhost:26259
-#sleep 2
-docker exec cockroachdb /cockroach/cockroach.sh quit --insecure --host=localhost:26258
-sleep 2
-docker exec cockroachdb /cockroach/cockroach.sh quit --insecure --host=localhost:26257
-sleep 2
-docker rm -f cockroachdb
+docker stop cockroachdb roach2 roach3
+docker rm cockroachdb roach2 roach3
+docker network rm roachnet
+rm -rf "{$PSD}/cockroach-data"
