@@ -14,4 +14,4 @@
 docker stop cockroachdb roach2 roach3
 docker rm cockroachdb roach2 roach3
 docker network rm roachnet
-rm -rf "{$PSD}/cockroach-data"
+rm -rf "${PWD}/cockroach-data"
