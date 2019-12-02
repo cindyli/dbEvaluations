@@ -95,6 +95,21 @@ gpiiCockroach.printGpiiKeys = function (options) {
     keys.forEach(function(key) {
         console.log(JSON.stringify(key, null, 2));
     });
+    return "Printed all GPII Keys";
+};
+
+// Get carla's preferences
+gpiiCockroach.retrieveCarlaPrefs = function (options) {
+    options.carlaPrefsSafe = options.prefsSafesModel.findOne(
+        { where: { prefsSafeId: "prefsSafe-carla" }}
+    );
+    return options.carlaPrefsSafe; // a Promise
+};
+
+// Print carla's "raw" preferences
+gpiiCockroach.printCarlaPrefs = function (options) {
+    var prefs = options.carlaPrefsSafe.value();
+    console.log(JSON.stringify(prefs.preferences, null, 2));
     return "Done!";
 };
 
@@ -123,7 +138,9 @@ gpiiCockroach.doItAll = function () {
         gpiiCockroach.insertPrefSafes,
         gpiiCockroach.insertAppInstallationAuthorizations,
         gpiiCockroach.retrieveGpiiKeys,
-        gpiiCockroach.printGpiiKeys
+        gpiiCockroach.printGpiiKeys,
+        gpiiCockroach.retrieveCarlaPrefs,
+        gpiiCockroach.printCarlaPrefs
     ];
     fluid.promise.sequence(sequence, options).then(
         gpiiCockroach.exitNoErrors,
