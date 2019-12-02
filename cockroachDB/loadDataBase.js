@@ -32,7 +32,13 @@ gpiiCockroach.sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', 
 
 gpiiCockroach.sequelize['import']("./tableModels/gpiiKeysModel.js");
 gpiiCockroach.sequelize['import']("./tableModels/prefsSafesModel.js");
-gpiiCockroach.sequelize['import']("./tableModels/gpiiAppInstallationAuthorization.js");
+gpiiCockroach.sequelize['import']("./tableModels/gpiiAppInstallationAuthorizationModel.js");
+
+// Function to increase the time by an hour
+gpiiCockroach.addAnHour = function (aDate) {
+    aDate.setTime(aDate.getTime() + 60 * 60 * 1000);
+    return aDate;
+};
 
 // Function to create the tables
 gpiiCockroach.createTables = function (options) {
@@ -69,8 +75,8 @@ gpiiCockroach.insertPrefSafes = function (options) {
 gpiiCockroach.insertAppInstallationAuthorizations = function (options) {
     return options.appInstallationAuthorizationsModel.bulkCreate(
         [
-            { accessToken: "expired", schemaVersion: "0.2", clientId: "gpiiAppInstallationClient-1", gpiiKey: "carla", revoked: false, revokedReason: null, timestampExpires: new Date().toISOString() },
-            { accessToken: "unexpired", schemaVersion: "0.2", clientId: "gpiiAppInstallationClient-1", gpiiKey: "alice", revoked: false, revokedReason: null, timestampExpires: new Date().toISOString() }
+            { accessToken: "expired", schemaVersion: "0.2", clientId: "gpiiAppInstallationClient-1", gpiiKey: "carla", revoked: false, revokedReason: null, timestampExpires: gpiiCockroach.addAnHour(new Date()).toISOString() },
+            { accessToken: "unexpired", schemaVersion: "0.2", clientId: "gpiiAppInstallationClient-1", gpiiKey: "alice", revoked: false, revokedReason: null, timestampExpires: gpiiCockroach.addAnHour(new Date()).toISOString() }
         ]
     );
 };
