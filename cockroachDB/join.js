@@ -9,10 +9,9 @@ https://github.com/GPII/universal/blob/master/LICENSE.txt
 */
 
 // Test script to perform a join with cockroachdb/serializer
+//
 var Sequelize = require('sequelize-cockroachdb');
 var fluid = require("infusion");
-
-require("./tableModels.js");
 
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
 
@@ -24,25 +23,47 @@ gpiiCockroach.sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', 
     logging: fluid.log
 });
 
-gpiiCockroach.joinQuery = '\
+gpiiCockroach.options = {};
+gpiiCockroach.options.joinQuery = '\
     SELECT "gpiiKeys"."gpiiKey", preferences AS prefs, "timestampExpires"\
     FROM "gpiiKeys", "prefsSafes", "gpiiAppInstallationAuthorizations"\
     WHERE "gpiiAppInstallationAuthorizations"."timestampExpires" > CURRENT_TIMESTAMP\
     AND "gpiiAppInstallationAuthorizations"."gpiiKey" = "gpiiKeys"."gpiiKey"\
     AND "gpiiKeys"."prefsSafeId" = "prefsSafes"."prefsSafeId"\
 ';
-//SELECT "gpiiKey" FROM "gpiiKeys", "preferences" AS prefs, timestampExpires FROM "gpiiKeys", "prefsSafes", "gpiiAppInstallationAuthorizations"\
 
-gpiiCockroach.sequelize.query(
-//    'SELECT "gpiiKey", "preferences" AS prefs FROM "gpiiKeys", "prefsSafes"',
-    gpiiCockroach.joinQuery,
-    { type: gpiiCockroach.sequelize.QueryTypes.SELECT }
-)
-.then(function (results) {
-    debugger;
-    console.log(results);
-})
-.then(function () {
-    process.exit(0);
-});
+// Do the query
+gpiiCockroach.doQuery = function (options) {
+    options.results = gpiiCockroach.sequelize.query(
+        options.joinQuery,
+        { type: gpiiCockroach.sequelize.QueryTypes.SELECT }
+    );
+    return options.results; // a Promise
+};
 
+// Print the result
+gpiiCockroach.printQueryResult = function (options) {
+    var results = options.results.value();
+    fluid.each(results, function (aResult) {
+        console.log(JSON.stringify(aResult, null, 2));
+    });
+    return "Done!";
+}
+
+// Run the sequence
+gpiiCockroach.postgresQuery = function () {
+    var sequence = [
+        gpiiCockroach.doQuery,
+        gpiiCockroach.printQueryResult
+    ];
+    fluid.promise.sequence(sequence, gpiiCockroach.options).then(
+        function (result) {
+            console.log(result[result.length-1]);
+            process.exit(0);
+        },
+        function (error) {
+            console.error('error: ' + err.message);
+            process.exit(1);
+        }
+    );
+}();
