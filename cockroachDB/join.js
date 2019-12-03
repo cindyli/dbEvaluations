@@ -62,7 +62,7 @@ gpiiCockroach.postgresQuery = function () {
             process.exit(0);
         },
         function (error) {
-            console.error('error: ' + err.message);
+            console.error('error: ' + error.message);
             process.exit(1);
         }
     );
