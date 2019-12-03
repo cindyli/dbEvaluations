@@ -16,7 +16,7 @@ The evaluation details can be found in the corresponding sub-directory.
 | **Must have** |
 | Save and retrieve "perferences" object | Yes | Yes. Save as stringified JSON. Spanner provides JSON functions to retrieve nested values/objects from JSON | Yes | Yes |
 | Query entities from more than one kind (table) by a common property | No | Yes | Yes | Yes |
-| Support DML-like OR when querying entities | No | Yes | Yes | TBD |
+| Support DML-like OR when querying entities | No | Yes | Yes | Yes |
 | Local emulator for development and running tests locally | Yes | Not offered by Google. A close work around is to start CockroachDB in a docker container.| Yes | Yes: both a local database as well as using Docker containers |
 | Failure reports | Yes | Yes | Yes | TBD |
 | Indexing | Yes | Yes | Yes | TBD |

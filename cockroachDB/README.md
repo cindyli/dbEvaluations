@@ -19,7 +19,7 @@ Sequelize as a replacement for CouchDB.
   - Run the `DockerStartInsecureCluster.sh` in the [`scripts`](./scripts) folder
   - Open a browser and go to `http://localhost:8080/#/databases/tables`.  There
     should be an empty `evaluate_cockroachdb` table listed near the top of the
-    page.
+    pag
   - When done, run `DockerStopInsecureCluster.sh` to destroy the database.
 
 ## Evaluation details
@@ -31,7 +31,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | **Must have** |
 | Save and retrieve `preferences` object | Yes, see [loadDataBase.js](./loadDataBase.js), [join.js](./join.js) |
 | Query entities from more than one kind (table) by a common property | Yes. See [join.js](./join.js) |
-| Support DML-like OR when querying entities | TBD. |
+| Support DML-like OR when querying entities | Yes.  See [loadDataBase.js](./loadDataBase.js) |
 | Local emulator for development and running tests locally | Yes. Running CockroachDB cluster using Docker image: https://www.cockroachlabs.com/docs/stable/start-a-local-cluster-in-docker-mac.html. |
 | Failure reports | TBD. |
 | Indexing | TBD. |

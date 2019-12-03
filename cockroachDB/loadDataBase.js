@@ -92,10 +92,11 @@ gpiiCockroach.retrieveGpiiKeys = function (options) {
 gpiiCockroach.printGpiiKeys = function (options) {
     // Print out the contents of the keys
     var keys = options.gpiiKeys.value();
+    console.log(">>> GPII Keys:");
     keys.forEach(function(key) {
         console.log(JSON.stringify(key, null, 2));
     });
-    return "Printed all GPII Keys";
+    return ">>> Printed all GPII Keys";
 };
 
 // Get carla's preferences
@@ -109,8 +110,31 @@ gpiiCockroach.retrieveCarlaPrefs = function (options) {
 // Print carla's "raw" preferences
 gpiiCockroach.printCarlaPrefs = function (options) {
     var prefs = options.carlaPrefsSafe.value();
+    console.log(">>> 'carla' preferences:");
     console.log(JSON.stringify(prefs.preferences, null, 2));
-    return "Done!";
+    return ">>> Printed 'carla' preferences.";
+};
+
+// DML-like OR query using the gpiiKeys table
+gpiiCockroach.DmlLikeORquery = function (options) {
+    options.DmlLikeORresult = options.gpiiKeysModel.findAll({
+        where: {
+            gpiiKey: {
+                $or: [ "carla", "alice" ]
+            }
+        }}
+    );
+    // SELECT * FROM "gpiiKeys" WHERE "gpiiKey" = 'carla' OR "gpiiKey" = 'alice';
+    return options.DmlLikeORresult;
+};
+
+debugger;
+// Print the result of the DML-like OR query
+gpiiCockroach.printDmlLikeORquery = function (options) {
+    var records = options.DmlLikeORresult.value();
+    console.log(">>> Result of DML-like OR query - 'carla' and 'alice' GPII Keys:");
+    console.log(JSON.stringify(records, null, 2));
+    return ">>> Printed 'carla' and 'alice' GPII Keys";
 };
 
 // Function to exit cleanly
@@ -140,7 +164,9 @@ gpiiCockroach.doItAll = function () {
         gpiiCockroach.retrieveGpiiKeys,
         gpiiCockroach.printGpiiKeys,
         gpiiCockroach.retrieveCarlaPrefs,
-        gpiiCockroach.printCarlaPrefs
+        gpiiCockroach.printCarlaPrefs,
+        gpiiCockroach.DmlLikeORquery,
+        gpiiCockroach.printDmlLikeORquery
     ];
     fluid.promise.sequence(sequence, options).then(
         gpiiCockroach.exitNoErrors,
