@@ -31,7 +31,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | **Must have** |
 | Save and retrieve `preferences` object | Yes, see [loadDataBase.js](./loadDataBase.js), [join.js](./join.js) |
 | Query entities from more than one kind (table) by a common property | Yes. See [join.js](./join.js) |
-| Support DML-like OR when querying entities | Yes.  See [DmlLikeORquery.js.js](./DmlLikeORquery.js) |
+| Support DML-like OR when querying entities | Yes.  See [DmlLikeORquery.js](./DmlLikeORquery.js) |
 | Local emulator for development and running tests locally | Yes. Running CockroachDB cluster using Docker image: https://www.cockroachlabs.com/docs/stable/start-a-local-cluster-in-docker-mac.html. |
 | Failure reports | Yes. Almost all `Sequelize` functions return a `Promise` |
 | Indexing | TBD. |
@@ -43,7 +43,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | Shallow merge at the property level | TBD.|
 | Deep JSON object merge for property values | TBD.|
 | Timestamp comparison | Yes. See [join.js](./join.js). |
-| Views | TBD. |
+| Views | No out-of-the-box support.  Preliminary support: https://github.com/abelosorio/sequelize-views-support. |
 | Reuse current db schema | TDB (likely). |
 | Data type validation | Yes. |
 | Scalability when querying a nested JSON value | TBD.|
