@@ -115,28 +115,6 @@ gpiiCockroach.printCarlaPrefs = function (options) {
     return ">>> Printed 'carla' preferences.";
 };
 
-// DML-like OR query using the gpiiKeys table
-gpiiCockroach.DmlLikeORquery = function (options) {
-    options.DmlLikeORresult = options.gpiiKeysModel.findAll({
-        where: {
-            gpiiKey: {
-                $or: [ "carla", "alice" ]
-            }
-        }}
-    );
-    // SELECT * FROM "gpiiKeys" WHERE "gpiiKey" = 'carla' OR "gpiiKey" = 'alice';
-    return options.DmlLikeORresult;
-};
-
-debugger;
-// Print the result of the DML-like OR query
-gpiiCockroach.printDmlLikeORquery = function (options) {
-    var records = options.DmlLikeORresult.value();
-    console.log(">>> Result of DML-like OR query - 'carla' and 'alice' GPII Keys:");
-    console.log(JSON.stringify(records, null, 2));
-    return ">>> Printed 'carla' and 'alice' GPII Keys";
-};
-
 // Function to exit cleanly
 gpiiCockroach.exitNoErrors = function (result) {
     console.log(result[result.length-1]);
@@ -164,9 +142,7 @@ gpiiCockroach.doItAll = function () {
         gpiiCockroach.retrieveGpiiKeys,
         gpiiCockroach.printGpiiKeys,
         gpiiCockroach.retrieveCarlaPrefs,
-        gpiiCockroach.printCarlaPrefs,
-        gpiiCockroach.DmlLikeORquery,
-        gpiiCockroach.printDmlLikeORquery
+        gpiiCockroach.printCarlaPrefs
     ];
     fluid.promise.sequence(sequence, options).then(
         gpiiCockroach.exitNoErrors,
