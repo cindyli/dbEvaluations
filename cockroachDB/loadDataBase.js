@@ -18,21 +18,10 @@ var fs = require("fs");
 var Sequelize = require('sequelize-cockroachdb');
 var fluid = require("infusion");
 
+require("./utils.js");
 require("./tableModels.js");
 
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
-
-// Connect to CockroachDB through Sequelize.
-gpiiCockroach.sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', {
-                              // DB name,              user       password (none)
-    dialect: 'postgres',
-    port: 26257,
-    logging: false
-});
-
-gpiiCockroach.sequelize['import']("./tableModels/gpiiKeysModel.js");
-gpiiCockroach.sequelize['import']("./tableModels/prefsSafesModel.js");
-gpiiCockroach.sequelize['import']("./tableModels/gpiiAppInstallationAuthorizationModel.js");
 
 // Function to increase the time by an hour
 gpiiCockroach.addAnHour = function (aDate) {
@@ -104,6 +93,7 @@ gpiiCockroach.retrieveCarlaPrefs = function (options) {
     options.carlaPrefsSafe = options.prefsSafesModel.findOne(
         { where: { prefsSafeId: "prefsSafe-carla" }}
     );
+    // SELECT * FROM prefsSafes WHERE prefsSafeId = 'prefsSafe-carla'
     return options.carlaPrefsSafe; // a Promise
 };
 
@@ -115,20 +105,13 @@ gpiiCockroach.printCarlaPrefs = function (options) {
     return ">>> Printed 'carla' preferences.";
 };
 
-// Function to exit cleanly
-gpiiCockroach.exitNoErrors = function (result) {
-    console.log(result[result.length-1]);
-    process.exit(0);
-};
-
-// Function to exit with an error
-gpiiCockroach.exitError = function (err) {
-    console.error('error: ' + err.message);
-    process.exit(1);
-};
-
 // Overall function
 gpiiCockroach.doItAll = function () {
+    gpiiCockroach.initConnection(false);    // no logging
+    gpiiCockroach.sequelize['import']("./tableModels/gpiiKeysModel.js");
+    gpiiCockroach.sequelize['import']("./tableModels/prefsSafesModel.js");
+    gpiiCockroach.sequelize['import']("./tableModels/gpiiAppInstallationAuthorizationModel.js");
+
     var options = {};
     options.id = "Here be options";
     options.gpiiKeysModel = gpiiCockroach.gpiiKeysModel;

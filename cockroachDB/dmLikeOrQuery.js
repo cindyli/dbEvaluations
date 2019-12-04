@@ -18,19 +18,10 @@ var fs = require("fs");
 var Sequelize = require('sequelize-cockroachdb');
 var fluid = require("infusion");
 
+require("./utils.js");
 require("./tableModels.js");
 
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
-
-// Connect to CockroachDB through Sequelize.
-gpiiCockroach.sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', {
-                                        // DB name,              user       password (none)
-    dialect: 'postgres',
-    port: 26257,
-    logging: false
-});
-
-gpiiCockroach.sequelize['import']("./tableModels/gpiiKeysModel.js");
 
 // DML-like OR query using the gpiiKeys table
 gpiiCockroach.DmlLikeORquery = function (options) {
@@ -46,7 +37,7 @@ gpiiCockroach.DmlLikeORquery = function (options) {
 };
 
 // Print the result of the DML-like OR query
-gpiiCockroach.printDmlLikeORquery = function (options) {
+gpiiCockroach.printDmlLikeORresult = function (options) {
     var records = options.DmlLikeORresult.value();
     console.log(">>> Result of DML-like OR query - 'carla' and 'alice' GPII Keys:");
     console.log(JSON.stringify(records, null, 2));
@@ -55,22 +46,20 @@ gpiiCockroach.printDmlLikeORquery = function (options) {
 
 // Run the query, and print the results
 gpiiCockroach.queryAndLog = function () {
+    gpiiCockroach.initConnection(false);    // no logging
+    gpiiCockroach.sequelize['import']("./tableModels/gpiiKeysModel.js");
+
     var options = {};
     options.gpiiKeysModel = gpiiCockroach.gpiiKeysModel;
     fluid.promise.sequence(
         [
             gpiiCockroach.DmlLikeORquery,
-            gpiiCockroach.printDmlLikeORquery
-        ], options
+            gpiiCockroach.printDmlLikeORresult
+        ],
+        options
     ).then(
-        function (result) {
-            console.log(result[result.length-1]);
-            process.exit(0);
-        }, 
-        function (err) {
-            console.error('error: ' + err.message);
-            process.exit(1);
-        }
+        gpiiCockroach.exitNoErrors,
+        gpiiCockroach.exitError
     );
 }();
         
