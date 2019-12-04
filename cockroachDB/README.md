@@ -31,7 +31,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | **Must have** |
 | Save and retrieve `preferences` object | Yes, see [loadDataBase.js](./loadDataBase.js), [join.js](./join.js) |
 | Query entities from more than one kind (table) by a common property | Yes. See [join.js](./join.js) |
-| Support DML-like OR when querying entities | Yes.  See [DmlLikeORquery.js](./DmlLikeORquery.js) |
+| Support DML-like OR when querying entities | Yes.  See [dmLikeOrQuery.js.js](./dmLikeOrQuery.js) |
 | Local emulator for development and running tests locally | Yes. Running CockroachDB cluster using Docker image: https://www.cockroachlabs.com/docs/stable/start-a-local-cluster-in-docker-mac.html. |
 | Failure reports | Yes. Almost all `Sequelize` functions return a `Promise` |
 | Indexing | TBD. |
