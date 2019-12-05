@@ -19,7 +19,6 @@ var Sequelize = require('sequelize-cockroachdb');
 var fluid = require("infusion");
 
 require("./utils.js");
-require("./tableModels.js");
 
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
 
@@ -34,7 +33,7 @@ gpiiCockroach.createTables = function (options) {
     return fluid.promise.sequence([
         options.gpiiKeysModel.sync({force: true}),
         options.prefsSafesModel.sync({force: true}),
-        options.appInstallationAuthorizationsModel.sync({force: true})
+        options.gpiiAppInstallationAuthorizationsModel.sync({force: true})
     ]);
 };
 
@@ -61,8 +60,8 @@ gpiiCockroach.insertPrefSafes = function (options) {
 };
 
 // Load the gpiiAppInstallationAuthorizations table
-gpiiCockroach.insertAppInstallationAuthorizations = function (options) {
-    return options.appInstallationAuthorizationsModel.bulkCreate(
+gpiiCockroach.insertGpiiAppInstallationAuthorizations = function (options) {
+    return options.gpiiAppInstallationAuthorizationsModel.bulkCreate(
         [
             { accessToken: "expired", schemaVersion: "0.2", clientId: "gpiiAppInstallationClient-1", gpiiKey: "carla", revoked: false, revokedReason: null, timestampExpires: gpiiCockroach.addAnHour(new Date()).toISOString() },
             { accessToken: "unexpired", schemaVersion: "0.2", clientId: "gpiiAppInstallationClient-1", gpiiKey: "alice", revoked: false, revokedReason: null, timestampExpires: gpiiCockroach.addAnHour(new Date()).toISOString() }
@@ -107,7 +106,7 @@ gpiiCockroach.printCarlaPrefs = function (options) {
 
 // Overall function
 gpiiCockroach.doItAll = function () {
-    gpiiCockroach.initConnection(false);    // no logging
+    gpiiCockroach.initConnection(true);    // show log messages
     gpiiCockroach.sequelize['import']("./tableModels/gpiiKeysModel.js");
     gpiiCockroach.sequelize['import']("./tableModels/prefsSafesModel.js");
     gpiiCockroach.sequelize['import']("./tableModels/gpiiAppInstallationAuthorizationModel.js");
@@ -116,12 +115,12 @@ gpiiCockroach.doItAll = function () {
     options.id = "Here be options";
     options.gpiiKeysModel = gpiiCockroach.gpiiKeysModel;
     options.prefsSafesModel = gpiiCockroach.prefsSafesModel;
-    options.appInstallationAuthorizationsModel = gpiiCockroach.appInstallationAuthorizationsModel;
+    options.gpiiAppInstallationAuthorizationsModel = gpiiCockroach.gpiiAppInstallationAuthorizationsModel;
     var sequence = [
         gpiiCockroach.createTables,
         gpiiCockroach.insertGpiiKeys,
         gpiiCockroach.insertPrefSafes,
-        gpiiCockroach.insertAppInstallationAuthorizations,
+        gpiiCockroach.insertGpiiAppInstallationAuthorizations,
         gpiiCockroach.retrieveGpiiKeys,
         gpiiCockroach.printGpiiKeys,
         gpiiCockroach.retrieveCarlaPrefs,

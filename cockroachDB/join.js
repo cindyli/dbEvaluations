@@ -37,7 +37,7 @@ gpiiCockroach.printQueryResult = function (options) {
 
 // Run the sequence
 gpiiCockroach.postgresQuery = function () {
-    gpiiCockroach.initConnection(false);    // no logging
+    gpiiCockroach.initConnection(true);    // show log messages
     gpiiCockroach.options = {};
     gpiiCockroach.options.joinQuery = '\
         SELECT "gpiiKeys"."gpiiKey", preferences AS prefs, "timestampExpires"\

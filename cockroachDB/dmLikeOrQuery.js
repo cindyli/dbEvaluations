@@ -8,18 +8,16 @@ You may obtain a copy of the License at
 https://github.com/GPII/universal/blob/master/LICENSE.txt
 */
 
-// Test script to perform a DML-like OR operation, and prinet the result
+// Test script to perform a DML-like OR operation, and print the result
 // Prerequisites:
 // 1. Run DockerStartInsecureCluster.sh in the "scripts" folder
-// 2. Run this script to load the database with recrods
-//   $ node loadDataBase.js
+// 2. Run `node loadDataBase.js` script to load the database with records
 
 var fs = require("fs");
 var Sequelize = require('sequelize-cockroachdb');
 var fluid = require("infusion");
 
 require("./utils.js");
-require("./tableModels.js");
 
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
 
@@ -46,7 +44,7 @@ gpiiCockroach.printDmlLikeORresult = function (options) {
 
 // Run the query, and print the results
 gpiiCockroach.queryAndLog = function () {
-    gpiiCockroach.initConnection(false);    // no logging
+    gpiiCockroach.initConnection(true);    // show log messages
     gpiiCockroach.sequelize['import']("./tableModels/gpiiKeysModel.js");
 
     var options = {};
