@@ -42,7 +42,7 @@ docker run -d \
 --name=roach3 \
 --hostname=roach3 \
 --net=roachnet \
--v "${PWD}/cockroach-data/roach2:/cockroach/cockroach-data" \
+-v "${PWD}/cockroach-data/roach3:/cockroach/cockroach-data" \
 $COCKROACHDB_IMAGE start --insecure --join=roach1,roach2,roach3
 
 docker exec -it cockroachdb ./cockroach init --insecure
