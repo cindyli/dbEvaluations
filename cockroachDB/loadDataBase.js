@@ -117,6 +117,7 @@ gpiiCockroach.doItAll = function () {
     options.prefsSafesModel = gpiiCockroach.prefsSafesModel;
     options.gpiiAppInstallationAuthorizationsModel = gpiiCockroach.gpiiAppInstallationAuthorizationsModel;
     var sequence = [
+        gpiiCockroach.checkConnection,
         gpiiCockroach.createTables,
         gpiiCockroach.insertGpiiKeys,
         gpiiCockroach.insertPrefSafes,

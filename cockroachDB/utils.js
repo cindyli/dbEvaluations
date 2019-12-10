@@ -18,14 +18,19 @@ var fluid = require("infusion");
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
 
 // Connect to CockroachDB through Sequelize.
-gpiiCockroach.initConnection = function (loggingFlag) {
+gpiiCockroach.initConnection = function (loggingMethod) {
     gpiiCockroach.sequelize = new Sequelize('evaluate_cockroachdb', 'maxroach', '', {
                                             // DB name,              user       password (none)
         dialect: 'postgres',
         port: 26257,
-        logging: loggingFlag
+        logging: loggingMethod
     });
 };
+
+// Check connection
+gpiiCockroach.checkConnection = function () {
+    return gpiiCockroach.sequelize.validate();  // a Promise
+}
 
 // Function to exit cleanly
 gpiiCockroach.exitNoErrors = function (result) {

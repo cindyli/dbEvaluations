@@ -30,7 +30,7 @@ https://github.com/GPII/universal/blob/master/LICENSE.txt
 // Executing (default): CREATE INDEX "preferences_index" ON "prefsSafes" ("preferences")
 // error: unimplemented: column preferences is of type jsonb and thus is not indexable
 //
-// See:  See: https://github.com/cockroachdb/cockroach/issues/35730 (HINT: You have attempted to use a feature that is not yet implemented.)
+// See: https://github.com/cockroachdb/cockroach/issues/35730 (HINT: You have attempted to use a feature that is not yet implemented.)
 
 var Sequelize = require('sequelize-cockroachdb');
 var fluid = require("infusion");
