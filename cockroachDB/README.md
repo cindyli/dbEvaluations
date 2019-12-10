@@ -34,7 +34,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | Support DML-like OR when querying entities | Yes.  See [dmLikeOrQuery.js](./dmLikeOrQuery.js) |
 | Local emulator for development and running tests locally | Yes. Running CockroachDB cluster using Docker image: https://www.cockroachlabs.com/docs/stable/start-a-local-cluster-in-docker-mac.html. |
 | Failure reports | Yes. Almost all `Sequelize` functions return a `Promise` |
-| Indexing | <ul><li>CockroachDB: No: https://github.com/cockroachdb/cockroach/issues/9682</li><li>Sequelize: Yes</li></ul> |
+| Indexing | <ul><li>CockroachDB: Not yet implemented: See: https://github.com/cockroachdb/cockroach/issues/35730</li><li>Sequelize: Yes</li></ul> |
 | Good Documentation | Yes (see [References](#References) below).|
 | Credentials Required | Run secure or insecure; only tested insecure |
 | Licensing | <ul><li>CockroachDB: [BSL](https://www.cockroachlabs.com/blog/oss-relicensing-cockroachdb/) (Open Source until used commercially)</li><li>Sequelize: MIT</li></ul> |
