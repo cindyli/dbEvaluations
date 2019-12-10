@@ -19,7 +19,7 @@ The evaluation details can be found in the corresponding sub-directory.
 | Support DML-like OR when querying entities | No | Yes | Yes | Yes |
 | Local emulator for development and running tests locally | Yes | Not offered by Google. A close work around is to start CockroachDB in a docker container.| Yes | Yes: both a local database as well as using Docker containers |
 | Failure reports | Yes | Yes | Yes | TBD |
-| Indexing | Yes | Yes | Yes | TBD |
+| Indexing | Yes | Yes | Yes | <ul><li>CockroachDB: Not yet implemented: See: https://github.com/cockroachdb/cockroach/issues/35730</li><li>Sequelize: Yes</li></ul> |
 | Good Documentation | Yes | Yes | Yes | Yes |
 | Credentials Required | No for using local emulator. Yes for accessing GCP instance. | Yes. Only tested the online GCP instance | Yes | No (run secure or insecure) |
 | Licensing | Paid service. Free quota that allows you to get started at no cost | Paid service. $300 credit for free trial. | Open Source under Apache License 2.0. | <ul><li>CockroachDB: [BSL](https://www.cockroachlabs.com/blog/oss-relicensing-cockroachdb/) (Open Source until used commercially)</li><li>Sequelize: MIT</li> |
