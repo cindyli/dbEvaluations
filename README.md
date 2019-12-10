@@ -28,8 +28,8 @@ The evaluation details can be found in the corresponding sub-directory.
 | Shallow merge at the property level | Yes | Yes | Yes | TBD |
 | Deep object merge for property values | No | No | Partial | TBD |
 | timestamp comparison | Yes | Yes | Yes | Yes |
-| Views | No | No | Yes | TBD |
-| Reuse current db schema | No | Yes | Yes | TBD |
+| Views | No | No | Yes | Early support via third party |
+| Reuse current db schema | No | Yes | Yes | Yes |
 | Data type validation | No | Yes | Yes | Yes |
 | Scalability when querying a nested JSON value | Yes | No | Partial | TBD |
 | Unnecessary to explicitly define entity dependencies for fast query | Yes | No. Must carefully define interleaved tables to ensure each interleaved row is physically stored in the same split as its parent row to improve performance.| Yes | TBD |

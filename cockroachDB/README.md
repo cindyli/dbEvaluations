@@ -44,7 +44,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | Deep JSON object merge for property values | TBD.|
 | Timestamp comparison | Yes. See [join.js](./join.js). |
 | Views | No out-of-the-box support.  Preliminary support: https://github.com/abelosorio/sequelize-views-support. |
-| Reuse current db schema | TDB (likely). |
+| Reuse current db schema | Yes. |
 | Data type validation | Yes. |
 | Scalability when querying a nested JSON value | TBD.|
 | Unnecessary to explicitly define entity dependencies for fast query | TBD.|
