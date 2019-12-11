@@ -71,7 +71,7 @@ gpiiCockroach.insertGpiiAppInstallationAuthorizations = function (options) {
 
 // Function to retrieve all gpiiKeys
 gpiiCockroach.retrieveGpiiKeys = function (options) {
-    // Retrieve the keys
+    // Retrieve the keys (SELECT * FROM "gpiiKeys")
     options.gpiiKeys = options.gpiiKeysModel.findAll();
     return options.gpiiKeys;    // a Promise
 };

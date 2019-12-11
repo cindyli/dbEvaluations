@@ -13,7 +13,6 @@ https://github.com/GPII/universal/blob/master/LICENSE.txt
 // 1. Run DockerStartInsecureCluster.sh in the "scripts" folder
 // 2. Run `node loadDataBase.js` script to load the database with records
 
-var fs = require("fs");
 var Sequelize = require('sequelize-cockroachdb');
 var fluid = require("infusion");
 

@@ -23,7 +23,7 @@ gpiiCockroach.initConnection = function (loggingMethod) {
                                             // DB name,              user       password (none)
         dialect: 'postgres',
         port: 26257,
-        logging: loggingMethod
+        logging: ( loggingMethod === true ? console.log : loggingMethod )
     });
 };
 
