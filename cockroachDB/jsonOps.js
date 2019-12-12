@@ -95,9 +95,11 @@ gpiiCockroach.jsonOPs = function () {
         FROM \"prefsSafes\"\
     ";
     options.replaceNameQuery = "\
-        UPDATE \"prefsSafes\" SET preferences = json_set(preferences, '{flat}'::string[], '{\"name\": \"Carla preferences\"}')\
-        WHERE true\
+        UPDATE \"prefsSafes\" AS \"prefsSafes\"\
+        SET preferences = json_set(preferences, '{flat}'::string[], '{\"name\": \"Carla preferences\"}')\
+        WHERE \"prefsSafes\".\"prefsSafeId\" = 'prefsSafe-carla'\
     ";
+//    UPDATE "prefsSafes" AS "prefsSafes" SET preferences = json_set(preferences, '{flat}'::string[],'{"name":"Carla preferences"}') WHERE "prefsSafes"."prefsSafeId" = 'prefsSafe-carla';
     var sequence = [
         gpiiCockroach.checkConnection,
         
