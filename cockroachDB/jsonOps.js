@@ -20,10 +20,34 @@ require("./utils.js");
 
 var gpiiCockroach = fluid.registerNamespace("gpii.cockroach");
 
+gpiiCockroach.printResult = function (result, msg) {
+    var retVal = ">>> Printed " + msg + ".";
+    console.log(">>> " + msg + ":");
+    console.log(JSON.stringify(result, null, 2));
+    console.log(retVal);
+    return retVal;
+};
+
+// Shallow query for top-level "name" field
+gpiiCockroach.shallowNameQuery = function (options) {
+    options.shallowNameQueryResult = gpiiCockroach.sequelize.query(
+        options.shallowQuery,
+        { type: gpiiCockroach.sequelize.QueryTypes.SELECT }
+    );
+    return options.shallowNameQueryResult;
+};
+
+// Print results of shallow query.
+gpiiCockroach.printShallowQueryResult = function (options) {
+    var result = options.shallowNameQueryResult.value();
+    // Getting the actual result from a json_extract_path() call is ugly.
+    return gpiiCockroach.printResult(result[0]["json_extract_path"], "Name");
+};
+
 // Get "raw" preferences
 gpiiCockroach.extractRawPreferences = function (options) {
     options.extractResults = gpiiCockroach.sequelize.query(
-        options.extractQuery,
+        options.deepQuery,
         { type: gpiiCockroach.sequelize.QueryTypes.SELECT }
     );
     return options.extractResults;
@@ -32,10 +56,25 @@ gpiiCockroach.extractRawPreferences = function (options) {
 // Print "raw" preferences
 gpiiCockroach.printPreferences = function (options) {
     var prefs = options.extractResults.value();
+    // Getting the actual result from a json_extract_path() call is ugly.
+    return gpiiCockroach.printResult(prefs, "preferences");
+};
+
+// Replace the name of carla's raw preferences
+gpiiCockroach.replaceName = function (options) {
     debugger;
-    console.log(">>> preferences:");
-    console.log(JSON.stringify(prefs, null, 2));
-    return ">>> Printed preferences.";
+    options.replaceNameResult = gpiiCockroach.sequelize.query(
+        options.replaceQuery,
+        { type: gpiiCockroach.sequelize.QueryTypes.UPDATE }
+    );
+    return options.replaceNameResult;
+};
+
+// Log result of attempt of replacing name of preferences
+gpiiCockroach.replaceNameResult = function (options) {
+    var replaceNameResult = options.replaceNameResult.value();
+    console.log ("Name replaced: '" + replaceNameResult + "'");
+    return replaceNameResult;
 };
 
 // "Main"
@@ -45,14 +84,32 @@ gpiiCockroach.jsonOPs = function () {
     
     var options = {};
     options.prefsSafesModel = gpiiCockroach.prefsSafesModel;
-    options.extractQuery = "\
-        SELECT json_extract_path(\"preferences\"->'flat'->'contexts'->'gpii-default'->'preferences')\
+    
+    options.shallowQuery = "\
+        SELECT json_extract_path(preferences->'flat'->'name')\
+        FROM \"prefsSafes\" AS \"prefsSafes\"\
+        WHERE \"prefsSafes\".\"prefsSafeId\" = 'prefsSafe-carla'\
+    ";
+    options.deepQuery = "\
+        SELECT json_extract_path(preferences->'flat'->'contexts'->'gpii-default'->'preferences')\
         FROM \"prefsSafes\"\
+    ";
+    options.replaceNameQuery = "\
+        UPDATE \"prefsSafes\" SET preferences = json_set(preferences, {'flat', 'name'}, 'Carla preferences')\
+        WHERE \"prefsSafeId\" = \"prefsSafe-carla\"\
     ";
     var sequence = [
         gpiiCockroach.checkConnection,
+        // Should fetch and print "Name: Carla"
+        gpiiCockroach.shallowNameQuery,
+        gpiiCockroach.printShallowQueryResult,
+        
+        // Should fetch and print all of the "raw" preferences
         gpiiCockroach.extractRawPreferences,
-        gpiiCockroach.printPreferences
+        gpiiCockroach.printPreferences,
+        
+        gpiiCockroach.replaceName,
+        gpiiCockroach.replaceNameResult
     ];
     fluid.promise.sequence(sequence, options).then (
         gpiiCockroach.exitNoErrors,
@@ -68,9 +125,8 @@ select * from t;
 
 See also: https://github.com/cockroachdb/docs/issues/4961
 
-
 gpiiCockroach.replaceQuery = "\
-    UPDATE \"prefsSafes\" SET preferences = json_set(preferences, 'flat'->'name', 'Carla preferences')\
+    UPDATE \"prefsSafes\" SET preferences = json_set(preferences, ['flat', 'name'], 'Carla preferences')\
     WHERE \"prefsSafeId\" = \"prefsSafe-carla\"\
     ";
 */
