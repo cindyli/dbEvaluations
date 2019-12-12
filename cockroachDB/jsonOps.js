@@ -64,7 +64,7 @@ gpiiCockroach.printPreferences = function (options) {
 gpiiCockroach.replaceName = function (options) {
     debugger;
     options.replaceNameResult = gpiiCockroach.sequelize.query(
-        options.replaceQuery,
+        options.replaceNameQuery,
         { type: gpiiCockroach.sequelize.QueryTypes.UPDATE }
     );
     return options.replaceNameResult;
@@ -95,11 +95,12 @@ gpiiCockroach.jsonOPs = function () {
         FROM \"prefsSafes\"\
     ";
     options.replaceNameQuery = "\
-        UPDATE \"prefsSafes\" SET preferences = json_set(preferences, {'flat', 'name'}, 'Carla preferences')\
-        WHERE \"prefsSafeId\" = \"prefsSafe-carla\"\
+        UPDATE \"prefsSafes\" SET preferences = json_set(preferences, '{flat}'::string[], '{\"name\": \"Carla preferences\"}')\
+        WHERE true\
     ";
     var sequence = [
         gpiiCockroach.checkConnection,
+        
         // Should fetch and print "Name: Carla"
         gpiiCockroach.shallowNameQuery,
         gpiiCockroach.printShallowQueryResult,
@@ -108,6 +109,7 @@ gpiiCockroach.jsonOPs = function () {
         gpiiCockroach.extractRawPreferences,
         gpiiCockroach.printPreferences,
         
+        // Should replace the "preferences.flat.name" value
         gpiiCockroach.replaceName,
         gpiiCockroach.replaceNameResult
     ];
@@ -126,7 +128,9 @@ select * from t;
 See also: https://github.com/cockroachdb/docs/issues/4961
 
 gpiiCockroach.replaceQuery = "\
-    UPDATE \"prefsSafes\" SET preferences = json_set(preferences, ['flat', 'name'], 'Carla preferences')\
+    UPDATE \"prefsSafes\" SET preferences = json_set(preferences, '{"flat"}'::string[], 'Carla preferences')\
     WHERE \"prefsSafeId\" = \"prefsSafe-carla\"\
     ";
+
+// UPDATE atable SET preferences = json_set(preferences, '{flat}'::string[],'{"name":"carlas prefs"}') WHERE true;
 */
