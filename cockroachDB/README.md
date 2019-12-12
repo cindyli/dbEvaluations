@@ -68,7 +68,7 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | **Nice to have (Optional)** |
 | Be able to retrieve a targeted subset of documents, such as by data type, username, et cetera. | Yes. See [join.js](./join.js).|
 | Shallow merge at the property level | Yes. See [jsonOps.js](.jsonOps.js) |
-| Deep JSON object merge for property values | Partial support for setting values of specified nested paths using `json_set()`.  See [jsonOps.js](.jsonOps.js). May be fully supported using `json_object()` -- not tested.|
+| Deep JSON object merge for property values | Partial support for setting values of specified nested paths using `json_set()`.  See [jsonOps.js](.jsonOps.js). May be fully supported using `json_build_object()` -- not tested.|
 | Timestamp comparison | Yes. See [join.js](./join.js). |
 | Views | No out-of-the-box support.  Preliminary support: https://github.com/abelosorio/sequelize-views-support. |
 | Reuse current db schema | Yes. |
