@@ -11,11 +11,11 @@ provides that, as well as a way of expressing the queries in a JSON-like way.
 For example, consider the following search query:
 
 ```
-SELECT * FROM "prefsSafes" WHERE "prefsSafeId" = "prefsSafe-carla";
+SELECT * FROM "prefsSafes" AS "prefsSafes" WHERE "prefsSafes"."prefsSafeId" = 'prefsSafe-carla';
 ```
 
-That can be written using the Sequelize Model function `findOne()` (models are
-how Sequelize represents `TABLE`s):
+This `SELECT` can be written using the Sequelize Model function `findOne()`
+(models are how Sequelize represents `TABLE`s):
 
 ```
 prefsSafesModel.findOne(
