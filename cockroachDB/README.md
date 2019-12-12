@@ -11,15 +11,21 @@ provides that, as well as a way of expressing the queries in a JSON-like way.
 For example, consider the following search query:
 
 ```
-SELECT * FROM "prefsSafes" AS "prefsSafes" WHERE "prefsSafes"."prefsSafeId" = 'prefsSafe-carla';
+SELECT "preferences" FROM "prefsSafes" AS "prefsSafes" WHERE ("prefsSafes"."preferences"#>>'{flat,contexts,gpii-default,preferences}') IS NOT NULL AND "prefsSafes"."prefsSafeId" = 'prefsSafe-carla';
 ```
 
-This `SELECT` can be written using the Sequelize Model function `findOne()`
-(models are how Sequelize represents `TABLE`s):
+This `SELECT` can be written using the Sequelize Model function `findAll()` as
+follows (models are how Sequelize represents `TABLE`s):
 
 ```
-prefsSafesModel.findOne(
-    { where: { prefsSafeId: "prefsSafe-carla" }}
+prefsSafesModel.findAll(
+    {
+        attributes: [ "preferences" ],
+        where: {
+            "preferences.flat.contexts.gpii-default.preferences": { $ne: null },
+            prefsSafeId: "prefsSafe-carla"
+        }
+    }
 );
 ```
 
