@@ -62,12 +62,12 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | **Nice to have (Optional)** |
 | Be able to retrieve a targeted subset of documents, such as by data type, username, et cetera. | Yes. See [join.js](./join.js).|
 | Shallow merge at the property level | Yes. See [jsonOps.js](.jsonOps.js) |
-| Deep JSON object merge for property values | Partial support for setting values of specified nested paths using `json_set()`.  See [jsonOps.js](.jsonOps.js). May be possible using `json_object()`.|
+| Deep JSON object merge for property values | Partial support for setting values of specified nested paths using `json_set()`.  See [jsonOps.js](.jsonOps.js). May be fully supported using `json_object()` -- not tested.|
 | Timestamp comparison | Yes. See [join.js](./join.js). |
 | Views | No out-of-the-box support.  Preliminary support: https://github.com/abelosorio/sequelize-views-support. |
 | Reuse current db schema | Yes. |
 | Data type validation | Yes. |
-| Scalability when querying a nested JSON value | TBD.|
+| Scalability when querying a nested JSON value | Somewhat: Use inverted index to optimize JSONB performance.<ul><li>A [blog post](https://www.cockroachlabs.com/blog/json-coming-to-cockroach/) notes that JSONB reads are fast, but writes are slower -- see the "When should I use structured data instead of JSONB?" section.</li><li>There is a [tutorial](https://www.cockroachlabs.com/docs/v19.2/demo-json-support.html#step-8-create-an-inverted-index-to-optimize-performance) on using an `INVERTED INDEX` to speed up JSONB queries (not tested).</li></ul> |
 | Unnecessary to explicitly define entity dependencies for fast query | TBD.|
 
 ## References:
