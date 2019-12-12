@@ -61,8 +61,8 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | Licensing | <ul><li>CockroachDB: [BSL](https://www.cockroachlabs.com/blog/oss-relicensing-cockroachdb/) (Open Source until used commercially)</li><li>Sequelize: MIT</li></ul> |
 | **Nice to have (Optional)** |
 | Be able to retrieve a targeted subset of documents, such as by data type, username, et cetera. | Yes. See [join.js](./join.js).|
-| Shallow merge at the property level | Shallow extraction is possible. See [jsonOps.js](.jsonOps.js) |
-| Deep JSON object merge for property values | Deep extraction is possible.  See [jsonOps.js](.jsonOps.js).|
+| Shallow merge at the property level | Yes. See [jsonOps.js](.jsonOps.js) |
+| Deep JSON object merge for property values | Partial. Support for setting values of specified nested paths.  See [jsonOps.js](.jsonOps.js).|
 | Timestamp comparison | Yes. See [join.js](./join.js). |
 | Views | No out-of-the-box support.  Preliminary support: https://github.com/abelosorio/sequelize-views-support. |
 | Reuse current db schema | Yes. |

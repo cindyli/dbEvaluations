@@ -25,8 +25,8 @@ The evaluation details can be found in the corresponding sub-directory.
 | Licensing | Paid service. Free quota that allows you to get started at no cost | Paid service. $300 credit for free trial. | Open Source under Apache License 2.0. | <ul><li>CockroachDB: [BSL](https://www.cockroachlabs.com/blog/oss-relicensing-cockroachdb/) (Open Source until used commercially)</li><li>Sequelize: MIT</li> |
 | **Nice to have (Optional)** |
 | Be able to retrieve a targeted subset documents, such as by data type, username, et cetera. | Yes | Yes | Yes | Yes |
-| Shallow merge at the property level | Yes | Yes | Yes | TBD |
-| Deep object merge for property values | No | No | Partial | TBD |
+| Shallow merge at the property level | Yes | Yes | Yes | Yes |
+| Deep object merge for property values | No | No | Partial | Partial |
 | timestamp comparison | Yes | Yes | Yes | Yes |
 | Views | No | No | Yes | Early support via third party |
 | Reuse current db schema | No | Yes | Yes | Yes |

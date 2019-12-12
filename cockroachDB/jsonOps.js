@@ -44,7 +44,7 @@ gpiiCockroach.printShallowQueryResult = function (options) {
     return gpiiCockroach.printResult(result[0]["json_extract_path"], "Name");
 };
 
-// Get "raw" preferences
+// Get "raw" preferences -- a deeper query
 gpiiCockroach.extractRawPreferences = function (options) {
     options.extractResults = gpiiCockroach.sequelize.query(
         options.deepQuery,
@@ -56,13 +56,11 @@ gpiiCockroach.extractRawPreferences = function (options) {
 // Print "raw" preferences
 gpiiCockroach.printPreferences = function (options) {
     var prefs = options.extractResults.value();
-    // Getting the actual result from a json_extract_path() call is ugly.
     return gpiiCockroach.printResult(prefs, "preferences");
 };
 
-// Replace the name of carla's raw preferences
+// Replace the name of Carla's raw preferences
 gpiiCockroach.replaceName = function (options) {
-    debugger;
     options.replaceNameResult = gpiiCockroach.sequelize.query(
         options.replaceNameQuery,
         { type: gpiiCockroach.sequelize.QueryTypes.UPDATE }
@@ -73,7 +71,7 @@ gpiiCockroach.replaceName = function (options) {
 // Log result of attempt of replacing name of preferences
 gpiiCockroach.replaceNameResult = function (options) {
     var replaceNameResult = options.replaceNameResult.value();
-    console.log ("Name replaced: '" + replaceNameResult + "'");
+    console.log ("preferences.name field replaced successfully");
     return replaceNameResult;
 };
 
@@ -93,46 +91,40 @@ gpiiCockroach.jsonOPs = function () {
     options.deepQuery = "\
         SELECT json_extract_path(preferences->'flat'->'contexts'->'gpii-default'->'preferences')\
         FROM \"prefsSafes\"\
+        WHERE \"prefsSafes\".\"prefsSafeId\" = 'prefsSafe-carla'\
     ";
     options.replaceNameQuery = "\
         UPDATE \"prefsSafes\" AS \"prefsSafes\"\
         SET preferences = json_set(preferences, '{flat,name}'::string[], '{\"name\": \"Carla preferences\"}')\
         WHERE \"prefsSafes\".\"prefsSafeId\" = 'prefsSafe-carla'\
     ";
-//    UPDATE "prefsSafes" AS "prefsSafes" SET preferences = json_set(preferences, '{flat}'::string[],'{"name":"Carla preferences"}') WHERE "prefsSafes"."prefsSafeId" = 'prefsSafe-carla';
     var sequence = [
         gpiiCockroach.checkConnection,
         
         // Should fetch and print "Name: Carla"
         gpiiCockroach.shallowNameQuery,
         gpiiCockroach.printShallowQueryResult,
-        
+
         // Should fetch and print all of the "raw" preferences
         gpiiCockroach.extractRawPreferences,
         gpiiCockroach.printPreferences,
-        
-        // Should replace the "preferences.flat.name" value
+
+        // Should replace the "preferences.flat.name" value for Carla only
         gpiiCockroach.replaceName,
-        gpiiCockroach.replaceNameResult
+        gpiiCockroach.replaceNameResult,
+
+        // Check the name has been replaced; should print
+        // "Name: Carla preferences".  Also, the gpii-default preferences should
+        // be the same
+        gpiiCockroach.shallowNameQuery,
+        gpiiCockroach.printShallowQueryResult,
+        gpiiCockroach.extractRawPreferences,
+        gpiiCockroach.printPreferences,
+
+        function () { return ">>> Done"; }
     ];
-    fluid.promise.sequence(sequence, options).then (
+    fluid.promise.sequence(sequence, options).then(
         gpiiCockroach.exitNoErrors,
         gpiiCockroach.exitError
     );
 }();
-
-/* From:  https://forum.cockroachlabs.com/t/updating-json-document-in-place/2488
-create table t (j json);
-insert into t values ('{"a":123,"b":456}');
-update t set j = json_set(j, '{a}'::string[], '789') where true;
-select * from t;
-
-See also: https://github.com/cockroachdb/docs/issues/4961
-
-gpiiCockroach.replaceQuery = "\
-    UPDATE \"prefsSafes\" SET preferences = json_set(preferences, '{"flat"}'::string[], 'Carla preferences')\
-    WHERE \"prefsSafeId\" = \"prefsSafe-carla\"\
-    ";
-
-// UPDATE atable SET preferences = json_set(preferences, '{flat}'::string[],'{"name":"carlas prefs"}') WHERE true;
-*/
