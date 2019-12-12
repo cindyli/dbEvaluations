@@ -24,7 +24,7 @@ module.exports = function () {
       schemaVersion: { type: Sequelize.STRING(100) },
       prefsSafeType: { type: Sequelize.STRING(100) },
       name: { type: Sequelize.STRING(255) },
-      // can specify Sequelize.JSON, but cockroachDB supports only JSONB
+      // can specify Sequelize.JSON, but cockroachDB supports only JSONB and will convert
       preferences: { type: Sequelize.JSONB },
       timestampCreated: { type: Sequelize.DATE }
     });

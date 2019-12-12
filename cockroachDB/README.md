@@ -1,6 +1,27 @@
 ## CockroachDB/Sequelize
 This folder contains shell and node scripts for evaluating CockroachDB with
-Sequelize as a replacement for CouchDB.
+[Sequelize](https://sequelize.readthedocs.io/en/v3/) as a replacement for
+CouchDB.
+
+CockroachDB also supports the [pg](https://www.npmjs.com/package/pg) Node
+Postgres driver that can be used instead of Sequelize.  This evaluation used the
+Sequelize interface only.  However, a brief skim of the pg package suggests that
+it provides a way make Postgres queries using node/javascript.  Sequelize also
+provides that, as well as a way of expressing the queries in a JSON-like way.
+For example, consider the following search query:
+
+```
+SELECT * FROM "prefsSafes" WHERE "prefsSafeId" = "prefsSafe-carla";
+```
+
+That can be written using the Sequelize Model function `findOne()` (models are
+how Sequelize represents `TABLE`s):
+
+```
+prefsSafesModel.findOne(
+    { where: { prefsSafeId: "prefsSafe-carla" }}
+);
+```
 
 ## Setup
 - Download and install CockroachDB and its Docker image.  Note that while there
@@ -35,12 +56,12 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | Local emulator for development and running tests locally | Yes. Running CockroachDB cluster using Docker image: https://www.cockroachlabs.com/docs/stable/start-a-local-cluster-in-docker-mac.html. |
 | Failure reports | Yes. Almost all `Sequelize` functions return a `Promise` |
 | Indexing | <ul><li>CockroachDB: indexing JSON field is not yet implemented ([createIndex.js](./createIndex.js)): https://github.com/cockroachdb/cockroach/issues/35730</li><li>Sequelize: Yes, but does not support computed indices: https://github.com/cockroachdb/cockroach/issues/9682</li></ul> |
-| Good Documentation | Yes (see [References](#References) below).|
+| Good Documentation | Yes on balance.  Some complex queries are poorly documented (see [References](#References) below).|
 | Credentials Required | Run secure or insecure; only tested insecure |
 | Licensing | <ul><li>CockroachDB: [BSL](https://www.cockroachlabs.com/blog/oss-relicensing-cockroachdb/) (Open Source until used commercially)</li><li>Sequelize: MIT</li></ul> |
 | **Nice to have (Optional)** |
 | Be able to retrieve a targeted subset of documents, such as by data type, username, et cetera. | Yes. See [join.js](./join.js).|
-| Shallow merge at the property level | TBD.|
+| Shallow merge at the property level | TBD. See [jsonOps.js](.jsonOps.js) |
 | Deep JSON object merge for property values | TBD.|
 | Timestamp comparison | Yes. See [join.js](./join.js). |
 | Views | No out-of-the-box support.  Preliminary support: https://github.com/abelosorio/sequelize-views-support. |
