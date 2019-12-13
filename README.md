@@ -18,7 +18,7 @@ The evaluation details can be found in the corresponding sub-directory.
 | Query entities from more than one kind (table) by a common property | No | Yes | Yes | Yes |
 | Support DML-like OR when querying entities | No | Yes | Yes | Yes |
 | Local emulator for development and running tests locally | Yes | Not offered by Google. A close work around is to start CockroachDB in a docker container.| Yes | Yes: both a local database as well as using Docker containers |
-| Failure reports | Yes | Yes | Yes | TBD |
+| Failure reports | Yes | Yes | Yes | Yes |
 | Indexing | Yes | Yes | Yes | <ul><li>No for JSON fields: CockroachDB</li><li>Yes: Sequelize</li></ul> |
 | Good Documentation | Yes | Yes | Yes | Yes |
 | Credentials Required | No for using local emulator. Yes for accessing GCP instance. | Yes. Only tested the online GCP instance | Yes | No (run secure or insecure) |
@@ -32,7 +32,7 @@ The evaluation details can be found in the corresponding sub-directory.
 | Reuse current db schema | No | Yes | Yes | Yes |
 | Data type validation | No | Yes | Yes | Yes |
 | Scalability when querying a nested JSON value | Yes | No | Partial | Partial |
-| Unnecessary to explicitly define entity dependencies for fast query | Yes | No. Must carefully define interleaved tables to ensure each interleaved row is physically stored in the same split as its parent row to improve performance.| Yes | [Can help](./dbEvaluations/tree/master/cockroachDB#entity-dependencies) |
+| Unnecessary to explicitly define entity dependencies for fast query | Yes | No. Must carefully define interleaved tables to ensure each interleaved row is physically stored in the same split as its parent row to improve performance.| Yes | Can help |
 
 Note:
 1. Without the support of "Query entities from more than one kind by a common property". These current views can only be achieved by 2 queries: findPrefsSafeByGpiiKey, findClientByOauth2ClientId, findInfoByAccessToken
