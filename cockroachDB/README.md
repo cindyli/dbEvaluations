@@ -74,7 +74,23 @@ Note that an evaluation summary can be found [in the repo README](../README.md).
 | Reuse current db schema | Yes. |
 | Data type validation | Yes. |
 | Scalability when querying a nested JSON value | Somewhat: Use inverted index to optimize JSONB performance.<ul><li>A [blog post](https://www.cockroachlabs.com/blog/json-coming-to-cockroach/) notes that JSONB reads are fast, but writes are slower -- see the "When should I use structured data instead of JSONB?" section.</li><li>There is a [tutorial](https://www.cockroachlabs.com/docs/v19.2/demo-json-support.html#step-8-create-an-inverted-index-to-optimize-performance) on using an `INVERTED INDEX` to speed up JSONB queries (not tested).</li></ul> |
-| Unnecessary to explicitly define entity dependencies for fast query | TBD.|
+| Unnecessary to explicitly define entity dependencies for fast query | Interleaving tables can improve performance.  See immediately [below](#entity-dependencies). |
+
+### Entity Dependencies
+
+The necessity, or lack thereof, to expicitly define entity dependencies for
+improved performance relates to Cloudspanner and its need to use [interleaved
+tables](https://cloud.google.com/spanner/docs/schema-and-data-model#creating-interleaved-tables)
+for performance improvements.  CockroachDB supports interleaved tables and [the
+documentation](https://www.cockroachlabs.com/docs/stable/interleave-in-parent.html)
+states that this generally leads to _much_ faster reads, writes, and joins.
+However, there are [caveats](https://www.cockroachlabs.com/docs/stable/interleave-in-parent.html#when-to-interleave-tables):
+- reads and deletes are slower for ranges, e.g., `WHERE column > value`.
+- optimization diminishes as the data size for a primary key value of the root
+table exceeds a key-value range maximum size (default 64mb).
+- interleaving works best for representing hierarchies.  The `gpiiKey`, `prefsSafes`,
+and `gpiiAppInstallationAuthorization` tables share some columns, but the
+hierarchy is not very deep.
 
 ## References:
 - CockroachDB documentation:  https://www.cockroachlabs.com/docs/stable/install-cockroachdb-mac.html
