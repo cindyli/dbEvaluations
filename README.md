@@ -11,28 +11,28 @@ This repo is to evaluate development features of 2 GCP supported databases:
 
 The evaluation details can be found in the corresponding sub-directory.
 
-| Feature | Firestore in datastore mode | Cloud Spanner | TiDB |
-| --- | --- | --- | --- |
+| Feature | Firestore in datastore mode | Cloud Spanner | TiDB | CockroachDB/Sequelize |
+| --- | --- | --- | --- | --- |
 | **Must have** |
-| Save and retrieve "perferences" object | Yes | Yes. Save as stringified JSON. Spanner provides JSON functions to retrieve nested values/objects from JSON | Yes |
-| Query entities from more than one kind (table) by a common property | No | Yes | Yes |
-| Support DML-like OR when querying entities | No | Yes | Yes |
-| Local emulator for development and running tests locally | Yes | Not offered by Google. A close work around is to start CockroachDB in a docker container.| Yes |
-| Failure reports | Yes | Yes | Yes |
-| Indexing | Yes | Yes | Yes |
-| Good Documentation | Yes | Yes | Yes |
-| Credentials Required | No for using local emulator. Yes for accessing GCP instance. | Yes. Only tested the online GCP instance | Yes |
-| Licensing | Paid service. Free quota that allows you to get started at no cost | Paid service. $300 credit for free trial. | Open Source under Apache License 2.0. |
+| Save and retrieve "perferences" object | Yes | Yes. Save as stringified JSON. Spanner provides JSON functions to retrieve nested values/objects from JSON | Yes | Yes |
+| Query entities from more than one kind (table) by a common property | No | Yes | Yes | Yes |
+| Support DML-like OR when querying entities | No | Yes | Yes | Yes |
+| Local emulator for development and running tests locally | Yes | Not offered by Google. A close work around is to start CockroachDB in a docker container.| Yes | Yes: both a local database as well as using Docker containers |
+| Failure reports | Yes | Yes | Yes | Yes |
+| Indexing | Yes | Yes | Yes | <ul><li>No for JSON fields: CockroachDB</li><li>Yes: Sequelize</li></ul> |
+| Good Documentation | Yes | Yes | Yes | Yes |
+| Credentials Required | No for using local emulator. Yes for accessing GCP instance. | Yes. Only tested the online GCP instance | Yes | No (run secure or insecure) |
+| Licensing | Paid service. Free quota that allows you to get started at no cost | Paid service. $300 credit for free trial. | Open Source under Apache License 2.0. | <ul><li>CockroachDB: [BSL](https://www.cockroachlabs.com/blog/oss-relicensing-cockroachdb/) (Open Source until used commercially)</li><li>Sequelize: MIT</li> |
 | **Nice to have (Optional)** |
-| Be able to retrieve a targeted subset documents, such as by data type, username, et cetera. | Yes | Yes | Yes |
-| Shallow merge at the property level | Yes | Yes | Yes |
-| Deep object merge for property values | No | No | Partial |
-| timestamp comparison | Yes | Yes | Yes |
-| Views | No | No | Yes |
-| Reuse current db schema | No | Yes | Yes |
-| Data type validation | No | Yes | Yes |
-| Scalability when querying a nested JSON value | Yes | No | Partial |
-| Unnecessary to explicitly define entity dependencies for fast query | Yes | No. Must carefully define interleaved tables to ensure each interleaved row is physically stored in the same split as its parent row to improve performance.| Yes |
+| Be able to retrieve a targeted subset documents, such as by data type, username, et cetera. | Yes | Yes | Yes | Yes |
+| Shallow merge at the property level | Yes | Yes | Yes | Yes |
+| Deep object merge for property values | No | No | Partial | Partial |
+| timestamp comparison | Yes | Yes | Yes | Yes |
+| Views | No | No | Yes | Early support via third party |
+| Reuse current db schema | No | Yes | Yes | Yes |
+| Data type validation | No | Yes | Yes | Yes |
+| Scalability when querying a nested JSON value | Yes | No | Partial | Partial |
+| Unnecessary to explicitly define entity dependencies for fast query | Yes | No. Must carefully define interleaved tables to ensure each interleaved row is physically stored in the same split as its parent row to improve performance.| Yes | Can help |
 
 Note:
 1. Without the support of "Query entities from more than one kind by a common property". These current views can only be achieved by 2 queries: findPrefsSafeByGpiiKey, findClientByOauth2ClientId, findInfoByAccessToken

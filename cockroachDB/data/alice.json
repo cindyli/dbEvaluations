@@ -1,0 +1,13 @@
+{
+    "flat": {
+        "name": "Alice",
+        "contexts": {
+            "gpii-default": {
+                "name": "Default preferences",
+                "preferences": {
+                    "http://registry.gpii.net/applications/com.microsoft.windows.onscreenKeyboard": {}
+                }
+            }
+        }
+    }
+}

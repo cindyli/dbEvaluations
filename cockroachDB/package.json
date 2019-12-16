@@ -1,0 +1,21 @@
+{
+  "name": "evaluate-cockroachdb",
+  "version": "1.0.0",
+  "description": "Testing database operations using cockroachDB",
+  "main": "y",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "database",
+    "sql",
+    "postgres"
+  ],
+  "author": "Klown",
+  "license": "MIT",
+  "dependencies": {
+    "infusion": "^2.0.0",
+    "sequelize": "^5.21.2",
+    "sequelize-cockroachdb": "^1.0.3"
+  }
+}
